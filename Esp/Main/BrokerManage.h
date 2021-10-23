@@ -1,10 +1,10 @@
 void brokerCallback(const char *topic, byte *payload, unsigned int length)
 {
-  
+
   String message = "";
   String receivedTokens[5];
   char *token;
-  unsigned int i; 
+  unsigned int i;
   unsigned int counter;
 
   for (i = 0; i < length; i++)
@@ -19,18 +19,24 @@ void brokerCallback(const char *topic, byte *payload, unsigned int length)
     token = strtok(NULL, splitDelimiter);
     counter++;
   }
-    
+
   if (receivedTokens[0] == ConfigDevice)
   {
-      mqttClient.publish(((String)topicPrefix + WiFi.SSID()).c_str(), ((String)"URLCONFIG:" + WiFi.localIP().toString()).c_str());
+    mqttClient.publish(((String)topicPrefix + WiFi.SSID()).c_str(), ((String) "serverUrl:" + WiFi.localIP().toString()).c_str());
   }
 
   else if (receivedTokens[0] == configWorld)
   {
-    recordData(receivedTokens);
+    recordData(receivedTokens, 1);
   }
 
-  else if (receivedTokens[0] == getDevice){
+  else if (receivedTokens[0] == setTopic)
+  {
+    recordData(receivedTokens, 2);
+  }
+
+  else if (receivedTokens[0] == getDevice)
+  {
     mqttClient.publish(((String)topicPrefix + WiFi.SSID()).c_str(), deviceModel);
   }
 }

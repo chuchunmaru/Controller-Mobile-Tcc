@@ -51,12 +51,12 @@ export default class DeviceManager extends React.Component {
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false} >
 
-                        <TouchableOpacity onPress={() => AddNewDevice('ESP32')} >
+                        <TouchableOpacity onPress={() => AddNewDevice('Esp32')} >
                             <View style={{ marginVertical: 15, borderRadius: 8, backgroundColor: 'rgba(255, 255, 255, .2)', height: 200, width: '96%', marginLeft: 'auto', marginRight: 'auto' }}>
 
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => AddNewDevice('ESP8266')}>
+                        <TouchableOpacity onPress={() => AddNewDevice('Esp8266')}>
                             <View style={{ marginVertical: 15, borderRadius: 8, backgroundColor: 'rgba(255, 255, 255, .2)', height: 200, width: '96%', marginLeft: 'auto', marginRight: 'auto' }}>
 
                             </View>

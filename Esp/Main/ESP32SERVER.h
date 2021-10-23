@@ -1,4 +1,5 @@
-void ServerWrite(){
+void ServerWrite()
+{
 
   WiFiClient client = server.available();
   if (client)

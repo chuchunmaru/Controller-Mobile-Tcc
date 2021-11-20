@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
 
   horizontalLine: {
-    borderBottomColor: 'rgba(255, 255, 255, .2)',
+    borderBottomColor: 'rgba(0, 20, 100, .2)',
     borderBottomWidth: 1,
     width: '94%',
     marginLeft: 'auto',
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     width: '100%',
-    backgroundColor: '#1c1c1c',
+    backgroundColor: 'white',
   },
 
   InputTextUrl: {

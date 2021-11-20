@@ -55,7 +55,7 @@ export default class Software extends React.Component {
   render() {
     if (this.state.Load && this.state.RequestSucess) {
       return (
-        <View style={{ height: '100%', width: '100%', paddingHorizontal: 6, backgroundColor:'#1c1c1c' }}>
+        <View style={{ height: '100%', width: '100%', paddingHorizontal: 6, backgroundColor:'white' }}>
           <ScrollView>
             <View style={styles.ListTitleView}>
               <Text style={styles.ListTitleText}>Esp Code</Text>

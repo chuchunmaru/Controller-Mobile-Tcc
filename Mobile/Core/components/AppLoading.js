@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image'
 export default function () {
 
     return (
-        <View style={{ justifyContent: 'center', height: '100%', width: '100%', alignItems: 'center', backgroundColor: '#1c1c1c' }}>
+        <View style={{ justifyContent: 'center', height: '100%', width: '100%', alignItems: 'center', backgroundColor: 'white' }}>
             <StatusBar hidden/>
             <FastImage
                     style={{ width: '100%', height: '60%' }}

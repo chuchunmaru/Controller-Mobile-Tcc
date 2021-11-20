@@ -11,9 +11,9 @@ export default class CheckConfig extends React.Component {
 
     async haveDevice() {
         try {
-            const Config = await AsyncStorage.getItem('@haveDevice')
+            const Config = await AsyncStorage.getItem('@countter')
             if (Config != null) {
-                this.props.navigate('Home')
+                this.props.navigation.navigate('Home')
             }
             else {
                 this.props.navigation.navigate('DeviceManager')

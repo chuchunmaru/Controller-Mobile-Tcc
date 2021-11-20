@@ -6,14 +6,14 @@ export default function () {
 
     return (
         <View style={{ justifyContent: 'center', height: '100%', width: '100%', alignItems: 'center', backgroundColor: 'ghostwhite' }}>
-            <StatusBar hidden/>
+            <StatusBar hidden />
             <FastImage
-                    style={{ width: '100%', height: '60%' }}
-                    source={require('../Animations/mascote.gif')}
-                    resizeMode={FastImage.resizeMode.contain} />
-           <Text style={{ color: 'rgba(255, 255, 255, .75)', marginVertical: 25, fontSize: 30, textAlign: 'center', fontFamily: 'Baskervville-Regular' }}>
+                style={{ width: '100%', height: '60%' }}
+                source={require('../Animations/mascote.gif')}
+                resizeMode={FastImage.resizeMode.contain} />
+            <Text style={{ color: 'rgba(0, 0, 0, .55)', marginVertical: 25, fontSize: 30, textAlign: 'center', fontFamily: 'Baskervville-Regular' }}>
                 Loading...
-                </Text>
+            </Text>
         </View>
     )
 }

@@ -1,32 +1,43 @@
-#include "LibsAndVars.h"
+#include "Libs.h"
 #include "Connect.h"
 #include "BrokerManage.h"
 #include "Pinout.h"
 
-#if defined(ESP8266)
-#include "ESP8266SERVER.h"
-#else
-#include "ESP32SERVER.h"
-#endif
-
-void setup()
-{
-  digitalWrite(BUILTIN_LED, lowValue);
-  Serial.begin(115200);
+void setup(){ 
   pinMode(BUILTIN_LED, OUTPUT);
-  wifiSetup();
+  pinMode(LED_Y, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_R, OUTPUT); 
+  pinMode(BUZZER, OUTPUT);
+  pinMode(RELAY, OUTPUT);
+  pinMode(MQ2_S, INPUT);
+  servo.attach(SERVO);
+  servo.write(0);
+  delay(1500);
+  
+  digitalWrite(BUILTIN_LED, 1);
+    Serial.begin(115200);
+  while (!Serial) {
+    delay(100);
+  }
+  Serial.println("....");
+  startWiFi();
+  delay(1500);
   mqttConfig();
-  server.begin();
   Serial.println(getTopic());
-  digitalWrite(BUILTIN_LED, highValue);
+  Serial.println("....");
+  digitalWrite(BUILTIN_LED, 0);
+  digitalWrite(LED_G, 1);
 }
 
+
 void loop()
-{
+{ 
+  gasMeasurement = map(analogRead(MQ2_S), 0, 4095, 0, 1000);
+  
   mqttClient.loop();
   if (WiFi.status() != WL_CONNECTED)
   {
-    wifiSetup();
+    startWiFi();
   }
-  ServerWrite();
 }

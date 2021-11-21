@@ -1,25 +1,16 @@
-void configModeCallback(WiFiManager *myWiFiManager)
-{
-  Serial.println(WiFi.softAPIP());
-  Serial.println(myWiFiManager->getConfigPortalSSID());
+void configModeCallback(WiFiConnect *mWiFiConnect) {
+  Serial.println("Entering Access Point");
 }
 
-void saveConfigCallback()
-{
-  Serial.println("Configuração Salva");
-  Serial.println(WiFi.softAPIP());
-}
 
-void wifiSetup()
-{
-  wifiManager.setAPCallback(configModeCallback);
-  wifiManager.setSaveConfigCallback(saveConfigCallback);
-  wifiManager.autoConnect(espSSID, espPassword);
-  wifiManager.setMinimumSignalQuality(10);
+void startWiFi(boolean showParams = false) {
+ 
+  wiFiConnect.setDebug(true);
+  
+  wiFiConnect.setAPCallback(configModeCallback);
 
-  while (WiFi.status() != WL_CONNECTED)
-  {
-    delay(200);
-    Serial.print(WiFi.status());
-  }
+
+    if (!wiFiConnect.autoConnect()) {
+      wiFiConnect.startConfigurationPortal(AP_WAIT);
+    }
 }

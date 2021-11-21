@@ -1,8 +1,7 @@
 import React from 'react'
 import { PermissionsAndroid, View, Text, StatusBar, TextInput, TouchableOpacity } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-import { DrawerContent } from '../Core/DrawerContent'
 import FastImage from 'react-native-fast-image'
 import Home from './Home'
 import Device from './Device'
@@ -15,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import Wifi from "react-native-iot-wifi"
 import SimpleToast from 'react-native-simple-toast';
 
-const Drawer = createDrawerNavigator()
+const Stack = createStackNavigator()
 
 const randomString = () => {
   var rstr = ''
@@ -47,7 +46,6 @@ export default class App extends React.Component {
   recordDevice = async (topic, name, description, id) => {
     if (name != '') {
       var counter = ''
-
       try {
         try {
           counter = await AsyncStorage.getItem(`@counter`)
@@ -65,7 +63,7 @@ export default class App extends React.Component {
         await AsyncStorage.multiSet([[`@${counter}:topic`, topic], [`@${counter}:name`, name], [`@${counter}:id`, id], [`@${counter}:description`, description], [`@counter`, JSON.stringify((counter + 1))]])
 
         Wifi.getSSID((SSID) => {
-          this.DeviceConfig(`Chuchunmaru:Esp32:${SSID}`, `RST`)
+          this.DeviceConfig(`glksdev${SSID}`, `RST`)
         })
         for (let i = 0; i < (counter + 1); i++) {
           console.log(`${await AsyncStorage.getItem(`@${i}:topic`)}\n${await AsyncStorage.getItem(`@${i}:name`)}\n${await AsyncStorage.getItem(`@${i}:id`)}\n${await AsyncStorage.getItem(`@${i}:description`)} \n${await AsyncStorage.getItem(`@counter`)}`)
@@ -89,7 +87,7 @@ export default class App extends React.Component {
     var topic = randomString()
     this.setState({ newTopic: topic })
     Wifi.getSSID((SSID) => {
-      this.DeviceConfig(`Chuchunmaru:Esp32:${SSID}`, `setTopic::${topic}`)
+      this.DeviceConfig(`glksdev${SSID}`, `setTopic@${topic}`)
     })
 
   }
@@ -99,7 +97,7 @@ export default class App extends React.Component {
     var cfgn = (nvalue) => { this.setState({ details: true, deviceMan: false, newTopic: nvalue }) }
     MQTT.createClient({
       uri: 'mqtt://broker.hivemq.com:1883',
-      clientId: randomString(),
+      clientId: 'glksdev',
 
     }).then(function (client) {
 
@@ -126,7 +124,7 @@ export default class App extends React.Component {
 
   async haveDevice() {
     try {
-      const Config = await AsyncStorage.getItem('@counter')
+      const Config = await AsyncStorage.getItem('@coyunter')
       if (Config != null) {
         this.setState({
           drawer: true,
@@ -157,7 +155,7 @@ export default class App extends React.Component {
           permissions: true,
         })
         var counter = ''
-        counter = await AsyncStorage.getItem(`@counter`)
+        counter = await AsyncStorage.getItem(`@coyunter`)
         if (!counter) {
           counter = 0
         }
@@ -282,13 +280,13 @@ export default class App extends React.Component {
     else if (this.state.load && this.state.drawer && !this.state.deviceMan && !this.state.details) {
       return (
         <NavigationContainer>
-          <Drawer.Navigator drawerContent={props => <DrawerContent{...props} />}>
-            <Drawer.Screen name="Home" component={Home} />
-            <Drawer.Screen name="Device" component={Device} />
-            <Drawer.Screen name="Settings" component={Settings} />
-            <Drawer.Screen name="Software" component={Software} />
-            <Drawer.Screen name="Support" component={Support} />
-          </Drawer.Navigator>
+          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={'scanner'}>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Device" component={Device} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="Software" component={Software} />
+            <Stack.Screen name="Support" component={Support} />
+          </Stack.Navigator>
         </NavigationContainer>
       )
     }

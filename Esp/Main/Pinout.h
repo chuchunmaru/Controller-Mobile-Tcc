@@ -1,5 +1,5 @@
 const byte BUILTIN_LED = 2;
-const byte MQ2_S = 36; 
+const byte MQ2_S = 34; 
 const byte LED_R = 12; 
 const byte LED_G = 13; 
 const byte LED_Y = 14; 

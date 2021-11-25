@@ -19,4 +19,6 @@ const char *espPassword = "12345678";
 const char *splitDelimiter = "@";
 const char *prefix = "glksdev";
 const int brokerPort = 1883;
+bool leak = false;
 int gasMeasurement = 0;
+String DefaultTopicConfig = "";

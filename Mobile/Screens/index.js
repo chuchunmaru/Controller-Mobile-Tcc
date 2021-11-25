@@ -12,18 +12,9 @@ import AppLoading from "../Components/AppLoading"
 import MQTT from 'react-native-mqtt-angelos3lex'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Wifi from "react-native-iot-wifi"
-import SimpleToast from 'react-native-simple-toast';
+import SimpleToast from 'react-native-simple-toast'
 
 const Stack = createStackNavigator()
-
-const randomString = () => {
-  var rstr = ''
-  for (let i = 0; i < 50; i++) {
-    rstr += ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789').charAt(Math.floor(Math.random() * 61))
-  }
-
-  return rstr
-}
 
 export default class App extends React.Component {
 
@@ -35,11 +26,19 @@ export default class App extends React.Component {
     details: false,
     placeholderalign: 'center',
     placeholderText: 'Dashboard Description (opcional)',
-
     deviceName: '',
     deviceId: '',
     description: '',
     newTopic: '',
+    ssid: null,
+  }
+
+  randomString = () => {
+    var rstr = ''
+    for (let i = 0; i < 6; i++) {
+      rstr += ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz').charAt(Math.floor(Math.random() * 52))
+    }
+    return `${rstr}${this.state.ssid}`
   }
 
 
@@ -62,12 +61,10 @@ export default class App extends React.Component {
 
         await AsyncStorage.multiSet([[`@${counter}:topic`, topic], [`@${counter}:name`, name], [`@${counter}:id`, id], [`@${counter}:description`, description], [`@counter`, JSON.stringify((counter + 1))]])
 
-        Wifi.getSSID((SSID) => {
-          this.DeviceConfig(`glksdev${SSID}`, `RST`)
-        })
         for (let i = 0; i < (counter + 1); i++) {
           console.log(`${await AsyncStorage.getItem(`@${i}:topic`)}\n${await AsyncStorage.getItem(`@${i}:name`)}\n${await AsyncStorage.getItem(`@${i}:id`)}\n${await AsyncStorage.getItem(`@${i}:description`)} \n${await AsyncStorage.getItem(`@counter`)}`)
         }
+        
         this.setState({
           deviceMan: false,
           drawer: true,
@@ -84,7 +81,7 @@ export default class App extends React.Component {
   }
 
   AddNewDevice = async () => {
-    var topic = randomString()
+    var topic = this.randomString()
     this.setState({ newTopic: topic })
     Wifi.getSSID((SSID) => {
       this.DeviceConfig(`glksdev${SSID}`, `setTopic@${topic}`)
@@ -123,8 +120,11 @@ export default class App extends React.Component {
 
 
   async haveDevice() {
+    Wifi.getSSID((SSID) => {
+      this.setState({ ssid: SSID })
+    })
     try {
-      const Config = await AsyncStorage.getItem('@coyunter')
+      const Config = await AsyncStorage.getItem('@counter')
       if (Config != null) {
         this.setState({
           drawer: true,
@@ -155,7 +155,7 @@ export default class App extends React.Component {
           permissions: true,
         })
         var counter = ''
-        counter = await AsyncStorage.getItem(`@coyunter`)
+        counter = await AsyncStorage.getItem(`@counter`)
         if (!counter) {
           counter = 0
         }

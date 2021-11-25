@@ -14,7 +14,6 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "accordion-collapse-react-native": "^1.1.0",
-    "lottie-react-native": "^5.0.0",
     "react": "17.0.2",
     "react-dom": "16.13.1",
     "react-native": "0.66.0",

@@ -1,11 +1,8 @@
 import React from 'react'
-import { ScrollView, StatusBar, View, Text, TouchableOpacity, Dimensions, FlatList, SafeAreaView } from 'react-native'
+import { ScrollView, StatusBar, View, Text, TouchableOpacity, FlatList, SafeAreaView } from 'react-native'
 import { Collapse, CollapseHeader, CollapseBody } from 'accordion-collapse-react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import FastImage from 'react-native-fast-image'
 import AppLoading from '../Components/AppLoading'
-
 
 
 export default class Home extends React.Component {
@@ -42,10 +39,7 @@ export default class Home extends React.Component {
     this.getDevices()
   }
 
-  componentWillUnmount() {
-
-  }
-
+  
   render() {
     if (!this.state.load) {
       return (
@@ -54,7 +48,7 @@ export default class Home extends React.Component {
     }
     else if (this.state.load) {
       return (
-        <View style={{ height: '100%', width: '100%', padding: 10 }}>
+        <View style={{ height: '100%', width: '100%', padding: 10, backgroundColor: 'ghostwhite' }}>
           <StatusBar hidden />
           <View style={{ height: 50, width: '99.4%', backgroundColor: 'rgba(255,127,80, .8)', marginVertical: 2, marginLeft: 'auto', marginRight: 'auto', borderRadius: 4, flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', marginBottom: 20 }}>
             <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
@@ -134,7 +128,7 @@ export default class Home extends React.Component {
                               </Text>
                             </View>
                           </View>
-                          <TouchableOpacity onPress={() => this.props.navigation.navigate('Device', {device: item})}>
+                          <TouchableOpacity onPress={() => this.props.navigation.navigate('Device', { device: item })}>
                             <View style={{ backgroundColor: 'rgba(255,165,0, .5)', width: '98%', height: 40, marginVertical: 20, marginLeft: 'auto', marginRight: 'auto', borderRadius: 4, justifyContent: 'center', alignItems: 'center' }}>
                               <Text style={{ color: 'rgba(255,255,255,.79)', fontSize: 22, fontFamily: 'Montserrat-Regular' }}>
                                 Open Device Panel

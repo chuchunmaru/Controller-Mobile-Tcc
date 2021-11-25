@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import { View, Text, ScrollView, Image, Dimensions } from 'react-native'
-import MQTT from 'react-native-mqtt-angelos3lex';
+import MQTT from 'react-native-mqtt-angelos3lex'
 import ApplicationError from '../Components/ApplicationError'
 import Loading from '../Components/RequestLoading'
 import LED_OFF from '../Assets/icons/LED_OFF.png'
@@ -68,12 +68,11 @@ export default class Device extends React.Component {
       }
       rdt.push({ SERVO: newData[6] })
 
-      setTimeout(() => {
-        this.setState({
-          Load: true,
-          RData: rdt
-        })
-      }, 1500)
+
+      this.setState({
+        Load: true,
+        RData: rdt
+      })
 
     }
     MQTT.createClient({
@@ -83,6 +82,7 @@ export default class Device extends React.Component {
     }).then(function (client) {
 
       client.on('message', function (msg) {
+        console.log(msg)
         if (msg.data.match('STATUS')) {
           setData(msg.data.replace(/STATUS/gi, "").split('|'))
         }
@@ -103,10 +103,10 @@ export default class Device extends React.Component {
   }
 
   async _getStatus() {
-    this.mqttClient(this.props.route.params.device.topic, 'status')
+    this.mqttClient(this.props.route.params.device.topic, 'getStatus')
     setTimeout(() => {
       this._getStatus()
-    }, 20000)
+    }, 3000)
   }
 
 
@@ -134,9 +134,9 @@ export default class Device extends React.Component {
                 <Image source={GLP} style={{ height: 175, width: 150, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Gas Measurement</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{this.state.RData[0]['GLP']}</Text>
                 </View>
               </View>
@@ -147,9 +147,9 @@ export default class Device extends React.Component {
                 <Image source={SERVO} style={{ height: 145, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Servo Position</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{`${this.state.RData[6]['SERVO']}°`}</Text>
                 </View>
               </View>
@@ -160,9 +160,9 @@ export default class Device extends React.Component {
                 <Image source={this.state.RData[5]['RELAY']} style={{ height: 145, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Relay State</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{(this.state.RData[5]['RELAY'] == RELAY_ON) ? 'ON' : 'OFF'}</Text>
                 </View>
               </View>
@@ -173,9 +173,9 @@ export default class Device extends React.Component {
                 <Image source={this.state.RData[4]['BUZZER']} style={{ height: 140, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Buzzer State</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{(this.state.RData[4]['BUZZER'] == BUZZER_ON) ? 'ON' : 'OFF'}</Text>
                 </View>
               </View>
@@ -186,9 +186,9 @@ export default class Device extends React.Component {
                 <Image source={this.state.RData[2]['LED_G']} style={{ height: 145, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Green Led</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{(this.state.RData[2]['LED_G'] == LED_GON) ? 'ON' : 'OFF'}</Text>
                 </View>
               </View>
@@ -199,9 +199,9 @@ export default class Device extends React.Component {
                 <Image source={this.state.RData[3]['LED_Y']} style={{ height: 145, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Yellow Led</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{(this.state.RData[3]['LED_Y'] == LED_YON) ? 'ON' : 'OFF'}</Text>
                 </View>
               </View>
@@ -212,14 +212,14 @@ export default class Device extends React.Component {
                 <Image source={this.state.RData[1]['LED_R']} style={{ height: 145, width: 140, }} />
               </View>
               <View style={{ height: '90%', borderColor: 'rgba(0,0,0, .8)', borderLeftWidth: 1, marginHorizontal: 5 }} />
-              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(70,130,180, .4)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: width - 200, height: 190, backgroundColor: 'rgba(73,222,215, .5)', borderRadius: 4, alignItems: 'center', justifyContent: 'center' }}>
                 <Text style={{ marginHorizontal: 15, color: 'rgba(0,0,0,.45)', fontSize: 30, fontFamily: 'Quicksand-Regular', justifyContent: 'center', textAlign: 'center' }}>Red Led</Text>
-                <View style={{ width: 150, height: 100, backgroundColor: 'rgba(70,130,180, .5)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ borderWidth: .5, borderColor: 'rgba(0,0,0,.3)', width: 150, height: 100, backgroundColor: 'rgba(205,253,222, .2)', marginTop: 10, borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
                   <Text style={{ textAlign: 'center', color: 'white', fontSize: 40 }}>{(this.state.RData[1]['LED_R'] == LED_RON) ? 'ON' : 'OFF'}</Text>
                 </View>
               </View>
             </View>
-            <View style={{ marginVertical: 15 }} />
+            <View style={{ height: 60 }} />
           </ScrollView>
         </View>
       )
